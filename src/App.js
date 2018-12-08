@@ -13,11 +13,13 @@ export class App extends React.Component {
 
   }
 
+  //Legger til 1 i nåværende poengsum
   updateScore(){
     let currentscore = this.state.poeng
     this.setState({poeng: currentscore + 1})
   }
 
+  //reseter kun poenge for øyeblikket og ikke spørsmålene
   resetScore(){
     this.setState({poeng: 0})
   }
@@ -33,6 +35,7 @@ export class App extends React.Component {
         Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
         </div>
         <div>
+        {/* bruk tall for å spesifisere hvilket spørsmål fra Questionlist som skal brukes*/}
         <QuestionContainer updateScore={this.updateScore} question={this.state.qlist['1']}/>
         <QuestionContainer updateScore={this.updateScore} question={this.state.qlist['2']}/>
         </div>
