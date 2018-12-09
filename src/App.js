@@ -33,11 +33,11 @@ export class App extends React.Component {
   }
 
   nextQuiz(){
-    if(this.state.quiznumber === this.state.numofquizzes){
-      this.setState({hidden: true})
-    }
     this.setState({quiznumber: this.state.quiznumber + 1})
+  }
 
+  lastQuiz(){
+    this.setState({quiznumber: this.state.quiznumber - 1})
   }
 
   render() {
@@ -65,6 +65,9 @@ export class App extends React.Component {
         </div>
         <div className='quizbox'>
           {quizbox}
+          <button hidden={this.state.hidden} onClick={this.lastQuiz.bind(this)}>
+            Forrige
+          </button>
           <button hidden={this.state.hidden} onClick={this.nextQuiz.bind(this)}>
             Neste
           </button>

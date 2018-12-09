@@ -7,5 +7,13 @@ export const Questionlist = {
   2:{
     q: '2',
     a: ['norge']
+  },
+  3:{
+    q: '1',
+    a: ['colombia']
+  },
+  4:{
+    q: '2',
+    a: ['venezuela']
   }
 }
