@@ -1,13 +1,21 @@
 import React from 'react';
 import './App.css';
-import {QuestionContainer} from './questionContainer';
+import {EuropeQuiz} from './Europequiz';
+import {SouthAmericaQuiz} from './SouthAmericaquiz';
 import {Questionlist} from './Questionlist';
+
 
 export class App extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = {qlist: Questionlist, poeng: 0, maxpoeng: 2}
+    this.state = {
+      poeng: 0,
+      maxpoeng: Object.keys(Questionlist).length,
+      quiznumber: 1,
+      hidden: false,
+      numofquizzes: 2
+    }
     this.updateScore = this.updateScore.bind(this)
     this.resetScore = this.resetScore.bind(this)
 
@@ -21,26 +29,48 @@ export class App extends React.Component {
 
   //reseter kun poenge for øyeblikket og ikke spørsmålene
   resetScore(){
-    this.setState({poeng: 0})
+    window.location.reload()
+  }
+
+  nextQuiz(){
+    if(this.state.quiznumber === this.state.numofquizzes){
+      this.setState({hidden: true})
+    }
+    this.setState({quiznumber: this.state.quiznumber + 1})
+
   }
 
   render() {
-    console.log('this.state.qlist app.js')
-    console.log(this.state.qlist)
+    console.log('Questionlist.length')
+    console.log(this.state.maxpoeng)
+
+    if(this.state.quiznumber === 1){
+      var quizbox = (
+        <EuropeQuiz updateScore={this.updateScore}/>
+      )
+    }  else if(this.state.quiznumber === 2){
+      var quizbox = (
+        <SouthAmericaQuiz updateScore={this.updateScore}/>
+      )
+    }
+
     return(
       <div className='main'>
         <h1>Spørsmål</h1>
-        <button  onClick={this.resetScore}>Reset</button>
+        <button  onClick={this.resetScore}>
+          Reset
+        </button>
         <div className='scoreboard' style={{padding: '5px'}}>
         Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
         </div>
-        <div>
-        {/* bruk tall for å spesifisere hvilket spørsmål fra Questionlist som skal brukes*/}
-        <QuestionContainer updateScore={this.updateScore} question={this.state.qlist['1']}/>
-        <QuestionContainer updateScore={this.updateScore} question={this.state.qlist['2']}/>
+        <div className='quizbox'>
+          {quizbox}
+          <button hidden={this.state.hidden} onClick={this.nextQuiz.bind(this)}>
+            Neste
+          </button>
         </div>
+
       </div>
     )
   }
-
 }
