@@ -5,7 +5,12 @@ export class QuestionContainer extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = { input: '', check: '', question: this.props.question, disabled: false}
+    this.state = { input: '',
+    check: '',
+    question: this.props.question,
+    disabled: false,
+    answered: []
+  }
 
     this.handleInput = this.handleInput.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
@@ -13,19 +18,25 @@ export class QuestionContainer extends React.Component {
 
   //Lagrer det som blir skrevet i state og fjerner alle mellomrom
   handleInput(event){
-    this.setState({input: event.target.value.toLowerCase().trim().replace(/\s/g,'')});
+    this.setState({input: event.target.value});
+    this.checkAnswer(event.target.value.toLowerCase().trim().replace(/\s/g,''));
     console.log(this.state.input)
   }
 
   //Sjekker om svaret i state stemmer med noen av fasitsvarene.
   //Hvis den finner et riktig svar låses sprøsmålet, updateScore kalles på og loopen stoppes
-  checkAnswer(){
+  checkAnswer(answer){
     console.log('handleAnswer called')
       for(let i =0; i < this.state.question.a.length; i++){
-      if(this.state.input === this.state.question.a[i]){
+      if(answer === this.state.question.a[i]){
         this.setState({check: 'Riktig!'})
-        this.setState({disabled: true})
-        this.props.updateScore()
+        this.setState({input: ''})
+        if(this.state.answered.indexOf(answer) > -1 === false) {
+          this.setState({answered: [...this.state.answered, answer]})
+          this.props.updateScore()
+        }
+        //this.setState({disabled: true})
+
         console.log('handleAnswer Riktig')
         return
       } else {
@@ -48,12 +59,14 @@ export class QuestionContainer extends React.Component {
     console.log(this.state.question)
     return(
         <div style={{padding: '5px'}}>
+
           <label
             className='questiontext'
             style={{paddingRight: '10px'}}>
             {this.state.question.q}
           </label>
           <input
+            value={this.state.input}
             disabled={this.state.disabled}
             className='answerbox'
             onChange={this.handleInput}
@@ -69,6 +82,15 @@ export class QuestionContainer extends React.Component {
             className='checklabel'>
             {this.state.check}
           </label>
+          <div>
+            <ul className='answerList' style={{color: '#00830D'}}>
+              {this.state.answered.map((answer, idx) =>
+              <li
+              key={idx}>
+              {answer}
+              </li>)}
+            </ul>
+          </div>
         </div>
     )
   }

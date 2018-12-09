@@ -3,6 +3,7 @@ import './App.css';
 import {EuropeQuiz} from './Europequiz';
 import {SouthAmericaQuiz} from './SouthAmericaquiz';
 import {Questionlist} from './Questionlist';
+import {CellensOppbygging} from './CellensOppbygging';
 
 
 export class App extends React.Component {
@@ -11,7 +12,7 @@ export class App extends React.Component {
 
     this.state = {
       poeng: 0,
-      maxpoeng: Object.keys(Questionlist).length,
+      maxpoeng: Object.keys(Questionlist[1].a).length,
       quiznumber: 1,
       hidden: false,
       numofquizzes: 2
@@ -32,12 +33,16 @@ export class App extends React.Component {
     window.location.reload()
   }
 
-  nextQuiz(){
-    this.setState({quiznumber: this.state.quiznumber + 1})
+  SouthAmericaQuiz(){
+    this.setState({quiznumber: 2, maxpoeng: Object.keys(Questionlist[3].a).length})
   }
 
-  lastQuiz(){
-    this.setState({quiznumber: this.state.quiznumber - 1})
+  EuropeQuiz(){
+    this.setState({quiznumber: 1, maxpoeng: Object.keys(Questionlist[1].a).length})
+  }
+
+  CellensOppbygging(){
+    this.setState({quiznumber: 3, maxpoeng: Object.keys(Questionlist[2].a).length})
   }
 
   render() {
@@ -52,27 +57,35 @@ export class App extends React.Component {
       var quizbox = (
         <SouthAmericaQuiz updateScore={this.updateScore}/>
       )
+    }  else if(this.state.quiznumber === 3){
+      var quizbox = (
+        <CellensOppbygging updateScore={this.updateScore}/>
+      )
     }
 
     return(
       <div className='main'>
-        <h1>Spørsmål</h1>
-        <button  onClick={this.resetScore}>
-          Reset
-        </button>
-        <div className='scoreboard' style={{padding: '5px'}}>
-        Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
-        </div>
-        <div className='quizbox'>
-          {quizbox}
-          <button hidden={this.state.hidden} onClick={this.lastQuiz.bind(this)}>
-            Forrige
+        <div>
+          <button hidden={this.state.hidden} onClick={this.EuropeQuiz.bind(this)}>
+            Europa
           </button>
-          <button hidden={this.state.hidden} onClick={this.nextQuiz.bind(this)}>
-            Neste
+          <button hidden={this.state.hidden} onClick={this.SouthAmericaQuiz.bind(this)}>
+            Sør-Amerika
           </button>
+          <button hidden={this.state.hidden} onClick={this.CellensOppbygging.bind(this)}>
+            Cellens Cellens oppbygging
+          </button>
+          <h1>Spørsmål</h1>
+          <button  onClick={this.resetScore}>
+            Reset
+          </button>
+          <div className='scoreboard' style={{padding: '5px'}}>
+          Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
+          </div>
+          <div className='quizbox'>
+            {quizbox}
+          </div>
         </div>
-
       </div>
     )
   }
