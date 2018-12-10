@@ -1,7 +1,7 @@
 import React from 'react';
 import {QuestionContainer} from './questionContainer';
 import {Questionlist} from './Questionlist';
-import celle from './Pictures/celle.png';
+//import celle from './Pictures/celle.png';
 
 export class CellensOppbygging extends React.Component {
   constructor(props){
@@ -20,7 +20,7 @@ export class CellensOppbygging extends React.Component {
             <QuestionContainer updateScore={this.props.updateScore} question={this.state.qlist['2']}/>
           </div>
           <div className='left'>
-            <img src={celle} alt='celle'/>
+            <img src='https://www.free-anatomy-quiz.com/pics/general/cell.jpg' alt='celle'/>
           </div>
         </div>
       </div>
