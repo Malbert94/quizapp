@@ -1,10 +1,7 @@
 import React from 'react';
 import './App.css';
-import {EuropeQuiz} from './Europequiz';
-import {SouthAmericaQuiz} from './SouthAmericaquiz';
 import {Questionlist} from './Questionlist';
-import {CellensOppbygging} from './CellensOppbygging';
-
+import {QuestionContainer} from './questionContainer';
 
 export class App extends React.Component {
   constructor(props){
@@ -12,13 +9,14 @@ export class App extends React.Component {
 
     this.state = {
       poeng: 0,
-      maxpoeng: Object.keys(Questionlist[1].a).length,
-      quiznumber: 1,
+      maxpoeng: Object.keys(Questionlist[0].a).length,
+      quiznumber: 0,
       hidden: false,
-      numofquizzes: 2
+      numofquizzes: 2,
+      qlist: Questionlist
     }
     this.updateScore = this.updateScore.bind(this)
-    this.resetScore = this.resetScore.bind(this)
+    this.resetQuiz = this.resetQuiz.bind(this)
 
   }
 
@@ -29,61 +27,49 @@ export class App extends React.Component {
   }
 
   //reseter kun poenge for øyeblikket og ikke spørsmålene
-  resetScore(){
+  resetQuiz(){
     window.location.reload()
   }
 
-  SouthAmericaQuiz(){
-    this.setState({quiznumber: 2, maxpoeng: Object.keys(Questionlist[3].a).length})
-  }
-
-  EuropeQuiz(){
-    this.setState({quiznumber: 1, maxpoeng: Object.keys(Questionlist[1].a).length})
-  }
-
-  CellensOppbygging(){
-    this.setState({quiznumber: 3, maxpoeng: Object.keys(Questionlist[2].a).length})
+  setQuizNumber(event, number){
+    this.setState({poeng: 0, quiznumber: number, maxpoeng: Object.keys(Questionlist[number].a).length, testprop: 'answerList'})
   }
 
   render() {
-    console.log('Questionlist.length')
-    console.log(this.state.maxpoeng)
 
-    if(this.state.quiznumber === 1){
-      var quizbox = (
-        <EuropeQuiz updateScore={this.updateScore}/>
-      )
-    }  else if(this.state.quiznumber === 2){
-      var quizbox = (
-        <SouthAmericaQuiz updateScore={this.updateScore}/>
-      )
-    }  else if(this.state.quiznumber === 3){
-      var quizbox = (
-        <CellensOppbygging updateScore={this.updateScore}/>
-      )
-    }
+    //console.log('quiznumber')
+    //console.log(this.state.quiznumber)
 
     return(
       <div className='main'>
         <div>
-          <button hidden={this.state.hidden} onClick={this.EuropeQuiz.bind(this)}>
-            Europa
+          <div style={{paddingBottom: '10px'}}>
+            {Questionlist.map((quiz, index) =>
+              <button key={index} onClick={ (event) => this.setQuizNumber(event, index) }>
+                {this.state.qlist[index].t}
+              </button>
+            )}
+          </div>
+
+          <button onClick={this.resetQuiz}>
+            Reset quiz
           </button>
-          <button hidden={this.state.hidden} onClick={this.SouthAmericaQuiz.bind(this)}>
-            Sør-Amerika
-          </button>
-          <button hidden={this.state.hidden} onClick={this.CellensOppbygging.bind(this)}>
-            Cellens Cellens oppbygging
-          </button>
-          <h1>Spørsmål</h1>
-          <button  onClick={this.resetScore}>
-            Reset
-          </button>
+
+          <h2>Spørsmål</h2>
+          <div>{this.state.qlist[this.state.quiznumber].t}</div>
           <div className='scoreboard' style={{padding: '5px'}}>
-          Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
+            Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
           </div>
           <div className='quizbox'>
-            {quizbox}
+            <div className='grid'>
+              <div className='right'>
+                <QuestionContainer updateScore={this.updateScore} question={this.state.qlist[this.state.quiznumber]}/>
+              </div>
+              <div className='left'>
+                <img src={this.state.qlist[this.state.quiznumber].i} alt={this.state.qlist[this.state.quiznumber].t}/>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

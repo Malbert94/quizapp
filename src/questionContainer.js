@@ -7,8 +7,6 @@ export class QuestionContainer extends React.Component {
 
     this.state = { input: '',
     check: '',
-    question: this.props.question,
-    disabled: false,
     answered: []
   }
 
@@ -20,63 +18,46 @@ export class QuestionContainer extends React.Component {
   handleInput(event){
     this.setState({input: event.target.value});
     this.checkAnswer(event.target.value.toLowerCase().trim().replace(/\s/g,''));
-    console.log(this.state.input)
+    //console.log(this.state.input)
   }
 
   //Sjekker om svaret i state stemmer med noen av fasitsvarene.
   //Hvis den finner et riktig svar låses sprøsmålet, updateScore kalles på og loopen stoppes
   checkAnswer(answer){
-    console.log('handleAnswer called')
-      for(let i =0; i < this.state.question.a.length; i++){
-      if(answer === this.state.question.a[i]){
+      //console.log('handleAnswer called')
+      for(let i =0; i < this.props.question.a.length; i++){
+      if(answer === this.props.question.a[i]){
         this.setState({check: 'Riktig!'})
         this.setState({input: ''})
-        if(this.state.answered.indexOf(answer) > -1 === false) {
+        if((this.state.answered.indexOf(answer) > -1) === false) {
           this.setState({answered: [...this.state.answered, answer]})
           this.props.updateScore()
         }
         //this.setState({disabled: true})
-
-        console.log('handleAnswer Riktig')
+        //console.log('handleAnswer Riktig')
         return
-      } else {
-        this.setState({check: 'Prøv igjen.'})
-        console.log('handleAnswer prøv igjen')
+      } else  {
+        this.setState({check: ''})
       }
     }
   }
 
-  //gjør at du kan trykke enter for å sjekke svaret
-  enterPressed(event) {
-    var code = event.keyCode || event.which;
-    if(code === 13) {
-      this.checkAnswer()
-    }
-  }
-
   render() {
-    console.log('this.state.question qcontainer.js')
-    console.log(this.state.question)
+    //console.log('this.props.question qContainer.js')
+    //console.log(this.props.question)
     return(
         <div style={{padding: '5px'}}>
-
           <label
             className='questiontext'
             style={{paddingRight: '10px'}}>
-            {this.state.question.q}
+            {this.props.question.q}
           </label>
           <input
             value={this.state.input}
             disabled={this.state.disabled}
             className='answerbox'
-            onChange={this.handleInput}
-            onKeyPress={this.enterPressed.bind(this)}>
+            onChange={this.handleInput}>
           </input>
-          <button
-            disabled={this.state.disabled}
-            onClick={this.checkAnswer}>
-            Sjekk svar
-          </button>
           <label
             style={{padding: '10px'}}
             className='checklabel'>
@@ -94,5 +75,4 @@ export class QuestionContainer extends React.Component {
         </div>
     )
   }
-
 }
