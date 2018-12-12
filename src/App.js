@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {Questionlist} from './Questionlist';
 import {QuestionContainer} from './questionContainer';
+import {Codecreator} from './Codecreator';
 
 export class App extends React.Component {
   constructor(props){
@@ -13,7 +14,8 @@ export class App extends React.Component {
       quiznumber: 0,
       hidden: false,
       numofquizzes: 2,
-      qlist: Questionlist
+      qlist: Questionlist,
+      show: true
     }
     this.updateScore = this.updateScore.bind(this)
     this.resetQuiz = this.resetQuiz.bind(this)
@@ -35,10 +37,18 @@ export class App extends React.Component {
     this.setState({poeng: 0, quiznumber: number, maxpoeng: Object.keys(Questionlist[number].a).length, testprop: 'answerList'})
   }
 
+  changeShow(){
+    this.setState({show: !this.state.show})
+  }
+
   render() {
 
     //console.log('quiznumber')
     //console.log(this.state.quiznumber)
+
+    if(this.state.show === true){
+      var codeCreator = <Codecreator />
+    }
 
     return(
       <div className='main'>
@@ -55,6 +65,10 @@ export class App extends React.Component {
             Reset quiz
           </button>
 
+          <button onClick={this.changeShow.bind(this)}>
+            Lag spørsmål
+          </button>
+          <div className='codeCreator'>{codeCreator}</div>
           <h2>Spørsmål</h2>
           <div>{this.state.qlist[this.state.quiznumber].t}</div>
           <div className='scoreboard' style={{padding: '5px'}}>
