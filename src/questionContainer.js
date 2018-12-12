@@ -7,7 +7,8 @@ export class QuestionContainer extends React.Component {
 
     this.state = { input: '',
     check: '',
-    answered: []
+    answered: [],
+    showAnswer: true
   }
 
     this.handleInput = this.handleInput.bind(this);
@@ -42,6 +43,10 @@ export class QuestionContainer extends React.Component {
     }
   }
 
+  showAnswer() {
+    this.setState({showAnswer: !this.state.showAnswer})
+  }
+
   render() {
     //console.log('this.props.question qContainer.js')
     //console.log(this.props.question)
@@ -50,16 +55,16 @@ export class QuestionContainer extends React.Component {
     var list = this.props.question.a.map((answer, idx) =>{
       if((this.state.answered.indexOf(answer) > -1) === false){
         var visible = {visibility: 'hidden'}
-      } else {
+      } else if(this.state.showAnswer === true) {
+        var visible = {visibility: 'visible'}
+        console.log(this.state.showAnswer)
+      }else {
         var visible = {visibility: 'visible'}
       }
       return        <li
           style={visible}
           key={idx}>
-          {console.log(this.props.question.n[idx])}
-          {this.props.question.n[idx]}
-          {'. '}
-          {answer}
+          {idx + 1 + '. ' + answer}
         </li>
       }
     )
@@ -82,6 +87,7 @@ export class QuestionContainer extends React.Component {
             className='checklabel'>
             {this.state.check}
           </label>
+          <button onClick={this.showAnswer.bind(this)} >Vis fasit</button>
           <div>
             <ul className='answerList' style={{color: '#00830D', listStyleType: 'none'}}>
               {list}
