@@ -45,6 +45,25 @@ export class QuestionContainer extends React.Component {
   render() {
     //console.log('this.props.question qContainer.js')
     //console.log(this.props.question)
+
+
+    var list = this.props.question.a.map((answer, idx) =>{
+      if((this.state.answered.indexOf(answer) > -1) === false){
+        var visible = {visibility: 'hidden'}
+      } else {
+        var visible = {visibility: 'visible'}
+      }
+      return        <li
+          style={visible}
+          key={idx}>
+          {console.log(this.props.question.n[idx])}
+          {this.props.question.n[idx]}
+          {'. '}
+          {answer}
+        </li>
+      }
+    )
+
     return(
         <div style={{padding: '5px'}}>
           <label
@@ -64,12 +83,8 @@ export class QuestionContainer extends React.Component {
             {this.state.check}
           </label>
           <div>
-            <ul className='answerList' style={{color: '#00830D'}}>
-              {this.state.answered.map((answer, idx) =>
-              <li
-              key={idx}>
-              {answer}
-              </li>)}
+            <ul className='answerList' style={{color: '#00830D', listStyleType: 'none'}}>
+              {list}
             </ul>
           </div>
         </div>

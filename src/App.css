@@ -18,3 +18,8 @@
   grid-column: 2;
   grid-row: 1;
 }
+
+.imog {
+  height : auto;
+  max-width: 100%;
+}

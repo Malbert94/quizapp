@@ -32,7 +32,7 @@ export class App extends React.Component {
   }
 
   setQuizNumber(event, number){
-    this.setState({poeng: 0, quiznumber: number, maxpoeng: Object.keys(Questionlist[number].a).length, testprop: 'answerList'})
+    this.setState({poeng: 0, quiznumber: number, maxpoeng: Object.keys(Questionlist[number].a).length})
   }
 
   render() {
@@ -43,7 +43,7 @@ export class App extends React.Component {
     return(
       <div className='main'>
         <div>
-          <div style={{paddingBottom: '10px'}}>
+          <div className='quizButtons' style={{paddingBottom: '10px'}}>
             {Questionlist.map((quiz, index) =>
               <button key={index} onClick={ (event) => this.setQuizNumber(event, index) }>
                 {this.state.qlist[index].t}
@@ -51,7 +51,7 @@ export class App extends React.Component {
             )}
           </div>
 
-          <button onClick={this.resetQuiz}>
+          <button className='resetter' onClick={this.resetQuiz}>
             Reset quiz
           </button>
 
@@ -60,13 +60,14 @@ export class App extends React.Component {
           <div className='scoreboard' style={{padding: '5px'}}>
             Antall riktige: {this.state.poeng}/{this.state.maxpoeng}
           </div>
+
           <div className='quizbox'>
             <div className='grid'>
               <div className='right'>
                 <QuestionContainer updateScore={this.updateScore} question={this.state.qlist[this.state.quiznumber]}/>
               </div>
               <div className='left'>
-                <img src={this.state.qlist[this.state.quiznumber].i} alt={this.state.qlist[this.state.quiznumber].t}/>
+                <img className='imog' src={this.state.qlist[this.state.quiznumber].i} alt={this.state.qlist[this.state.quiznumber].t}/>
               </div>
             </div>
 
