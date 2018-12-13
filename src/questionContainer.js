@@ -8,7 +8,7 @@ export class QuestionContainer extends React.Component {
     this.state = { input: '',
     check: '',
     answered: [],
-    showAnswer: true
+    showAnswer: false
   }
 
     this.handleInput = this.handleInput.bind(this);
@@ -53,13 +53,12 @@ export class QuestionContainer extends React.Component {
 
 
     var list = this.props.question.a.map((answer, idx) =>{
-      if((this.state.answered.indexOf(answer) > -1) === false){
-        var visible = {visibility: 'hidden'}
-      } else if(this.state.showAnswer === true) {
-        var visible = {visibility: 'visible'}
-        console.log(this.state.showAnswer)
-      }else {
-        var visible = {visibility: 'visible'}
+      if(this.state.showAnswer === false){
+        if((this.state.answered.indexOf(answer) > -1) === false){
+          var visible = {visibility: 'hidden'}
+        } else {
+          var visible = {visibility: 'visible'}
+        }
       }
       return        <li
           style={visible}
