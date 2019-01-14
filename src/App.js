@@ -13,10 +13,12 @@ export class App extends React.Component {
       quiznumber: 0,
       hidden: false,
       numofquizzes: 2,
-      qlist: Questionlist
+      qlist: Questionlist,
+      showAnswer: false
     }
     this.updateScore = this.updateScore.bind(this)
     this.resetQuiz = this.resetQuiz.bind(this)
+    this.showAnswer = this.showAnswer.bind(this)
 
   }
 
@@ -32,7 +34,11 @@ export class App extends React.Component {
   }
 
   setQuizNumber(event, number){
-    this.setState({poeng: 0, quiznumber: number, maxpoeng: Object.keys(Questionlist[number].a).length})
+    this.setState({poeng: 0, quiznumber: number, maxpoeng: Object.keys(Questionlist[number].a).length, showAnswer: false})
+  }
+
+  showAnswer() {
+    this.setState({showAnswer: !this.state.showAnswer})
   }
 
   render() {
@@ -64,7 +70,12 @@ export class App extends React.Component {
           <div className='quizbox'>
             <div className='grid'>
               <div className='right'>
-                <QuestionContainer updateScore={this.updateScore} question={this.state.qlist[this.state.quiznumber]}/>
+                <QuestionContainer
+                updateScore={this.updateScore}
+                question={this.state.qlist[this.state.quiznumber]}
+                showAnswer={this.state.showAnswer}
+                showAnswerFunc={this.showAnswer}
+                />
               </div>
               <div className='left'>
                 <img className='imog' src={this.state.qlist[this.state.quiznumber].i} alt={this.state.qlist[this.state.quiznumber].t}/>
