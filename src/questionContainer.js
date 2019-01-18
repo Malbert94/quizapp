@@ -1,5 +1,10 @@
 import React from 'react';
 import './App.css';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Paper from '@material-ui/core/Paper';
+
 
 export class QuestionContainer extends React.Component {
   constructor(props){
@@ -70,20 +75,22 @@ export class QuestionContainer extends React.Component {
           <label
             className='questiontext'
             style={{paddingRight: '10px'}}>
-            {this.props.question.q}
+            {this.props.question.q}:
           </label>
-          <input
+          <OutlinedInput
             value={this.state.input}
             disabled={this.state.disabled}
             className='answerbox'
-            onChange={this.handleInput}>
-          </input>
+            placeholder="Svar"
+            onChange={this.handleInput}
+            label='svar'>
+          </OutlinedInput>
           <label
             style={{padding: '10px'}}
             className='checklabel'>
             {this.state.check}
           </label>
-          <button onClick={this.props.showAnswerFunc} >Vis fasit</button>
+          <Button variant="contained" onClick={this.props.showAnswerFunc} >Vis fasit</Button>
           <div>
             <ul className='answerList' style={{color: '#00830D', listStyleType: 'none'}}>
               {list}

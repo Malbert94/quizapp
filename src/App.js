@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {Questionlist} from './Questionlist';
 import {QuestionContainer} from './questionContainer';
+import Button from '@material-ui/core/Button';
 
 export class App extends React.Component {
   constructor(props){
@@ -51,15 +52,15 @@ export class App extends React.Component {
         <div>
           <div className='quizButtons' style={{paddingBottom: '10px'}}>
             {Questionlist.map((quiz, index) =>
-              <button key={index} onClick={ (event) => this.setQuizNumber(event, index) }>
+              <Button variant="contained" color="primary" key={index} onClick={ (event) => this.setQuizNumber(event, index) }>
                 {this.state.qlist[index].t}
-              </button>
+              </Button>
             )}
           </div>
 
-          <button className='resetter' onClick={this.resetQuiz}>
+          <Button variant="contained" color="secondary" className='resetter' onClick={this.resetQuiz}>
             Reset quiz
-          </button>
+          </Button>
 
           <h2>Spørsmål</h2>
           <div>{this.state.qlist[this.state.quiznumber].t}</div>
