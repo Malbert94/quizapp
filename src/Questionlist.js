@@ -1,4 +1,17 @@
 //Spørsmål lagres som objekter her i Questionlist-objektet
+
+//template
+//kopier og fyll inn
+// t = tema, q = spørsmål, a = svar, i = bildelink
+/*
+{
+  t: '',
+  q: '',
+  a: [],
+  i: '',
+},
+*/
+
 export const Questionlist = [
   {
     t: 'Landene i Europa',
